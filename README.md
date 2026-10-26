@@ -56,21 +56,46 @@ Qualifying sales value is not the same as audited net revenue. The analysis does
 ## Reproducibility
 
 ### Requirements
-- Python
-- DuckDB Python package
-- The UCI Online Retail dataset
+
+- Python 3
+- DuckDB, pandas, and openpyxl
+- [UCI Online Retail dataset](https://archive.ics.uci.edu/dataset/352/online+retail)
 
 ### Setup
-1. Download the Online Retail dataset from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/352/online+retail).
-2. Create a DuckDB database and import the source data into a table named `raw_retail`. The raw table should contain the original eight columns: `InvoiceNo`, `StockCode`, `Description`, `Quantity`, `InvoiceDate`, `UnitPrice`, `CustomerID` and `Country`.
-3. Run the SQL scripts in the following order:
-   - `01_data_cleaning.sql` — creates `retail_clean`.
-   - `02_sales_analysis.sql` — creates `sales_analysis` and runs monthly sales analysis.
-   - `03_product_analysis.sql` — analyses product performance.
-   - `04_customer_segmentation.sql` — segments customers by qualifying sales.
-   - `05_customer_retention.sql` — calculates next-month retention.
+
+1. Download the Online Retail dataset from the UCI Machine Learning Repository.
+2. Extract the Excel file and save it as `data/Online Retail.xlsx` inside the project folder.
+3. Open Terminal in the project folder and install the required packages:
+
+   ```bash
+   python -m pip install duckdb pandas openpyxl
+   ```
+
+4. Import the dataset into DuckDB:
+
+   ```bash
+   python import_data.py
+   ```
+
+5. Run all five SQL analysis scripts:
+
+   ```bash
+   python run_analysis.py
+   ```
+
+The analysis scripts execute in sequence, starting with data cleaning and continuing through sales analysis, product analysis, customer segmentation, and customer retention.
 
 ### Validation
-The current analytical dataset contains 530,104 sales lines and approximately £10.67 million in qualifying positive sales value. These are baseline checks for the existing database, not a guarantee that every fresh import will produce identical results.
 
-The scripts have been developed and checked against the existing DuckDB database. Full end-to-end execution from a fresh environment remains a final validation step before describing the project as fully reproducible.
+The project was successfully executed locally using DuckDB and Python.
+
+The resulting analytical dataset contained:
+
+- **530,104** qualifying sales lines
+- **19,960** invoices
+- **4,338** customers with known IDs
+- **£10,666,684.54** in qualifying positive sales value
+
+These results exclude cancellation invoices, non-positive quantities, and non-positive unit prices. They represent qualifying positive sales rather than fully reconciled net revenue.
+
+The original Excel dataset and generated DuckDB database are excluded from GitHub. Users can recreate the database by following the steps above.
