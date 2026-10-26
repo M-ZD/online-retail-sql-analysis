@@ -1,0 +1,18 @@
+# Local databases
+*.duckdb
+*.duckdb.wal
+
+# Source datasets
+data/
+*.xlsx
+*.xls
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# macOS
+.DS_Store
